@@ -3,7 +3,7 @@ default:
   hpc_root: "~"
 
 Skyline_dev:
-  hpc_root: "~/Documents/JoesFlow"
+  hpc_root: "~/Documents/Workflows/JoesFlow.worktrees/JoesFlowHPC_dev/"
   setup_script: "shiny/configure.R"
   username: "R.utils::System$getUsername()"
   passwd: "op read op://Private/JoesFlow/Skyline_key"

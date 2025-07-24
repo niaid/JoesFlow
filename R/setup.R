@@ -53,13 +53,26 @@ config <- config::get(file = 'inst/config.yml')
 
 library(ssh)
 
+# with a key pair
+
 con <- ssh_connect(host = "johnsonra@ai-hpcsubmit1.niaid.nih.gov",
                    keyfile = "~/.ssh/id_rsa",
-                   passwd = system("op read op://Private/JoesFlow/Skyline_key", intern = TRUE))
+                   passwd = get_secret('SKYLINE_KEY', 'Private', 'JoesFlow', 'Skyline_key'))
 
 ssh_exec_wait(con, "ls -l ~/rtb_idss/")
 
 ssh_disconnect(con)
+
+
+# Use password without a key
+
+con <- ssh_connect(host = "johnsonra@ai-hpcsubmit1.niaid.nih.gov",
+                   passwd = as.character(get_secret('SKYLINE_PASS', 'Private', 'NIHAcct', 'password')))
+
+# create a key pair
+keypair <- rsa_keygen(bits = 4096)
+
+write_pem(keypair, 'newkey_rsa', password = {paste('Hello', 'world!') |> digest(algo = 'sha256', serialize = FALSE)})
 
 ### getting current user
 
